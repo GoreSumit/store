@@ -1,0 +1,90 @@
+<div class="row">
+
+  <div class="col mt-2">
+    <label for="hide_image">Hide Images</label><input type="checkbox" name="hide_image"
+      (change)="isChecked($event)" id="checkBox">
+    </div>
+
+  <div class="col mt-2">
+    <input class="form-control mb-2" placeholder="Search Product By Name" type="text" [(ngModel)]="filterBy" name="filter_search">
+  </div>
+  
+  <div class="col mt-2"></div>
+</div>
+<div class="row">
+  
+  <div class="col offset-3 d-flex align-items-center">
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">All</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">Mobile</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">TV</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">Watch</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">Laptop</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">AC</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">Washing Machine</button>
+    <button class="btn btn-primary mx-2" (click)="byCategory($event)">Fridge</button> 
+  </div>
+
+  <div class="col-2 d-flex align-items-center">
+    <small class="text-white">Items Per Page</small>
+    
+    <input type="text" class="form-control mb-2" placeholder="Items Per Page" [(ngModel)]="productPerPage"> 
+  </div>
+ 
+</div>
+<div class="alert alert-danger" *ngIf="errorMessage">
+  {{errorMessage}}
+</div>
+
+<div class="row" *ngIf="loading">
+  <div class="col">
+    Loading....
+  </div>
+</div>
+
+<ng-container *ngIf="products$ | async">
+  <ng-container *ngIf="!loading" >
+    <div class="row mt-2">
+  
+      <div class="col d-flex justify-content-around mt-2" *ngFor="let product of filPro | slice:firstPage():pageEnd()">
+        <div class="card" [class.featured-product]="product.featured" style="width: 15rem;"
+          [style.background-color]="product.cardColor" [routerLink]="['/products',product.id]">
+          <img *ngIf="checkBox" [src]="product.image" class="card-img-top" alt="product.name">
+          <div class="card-body">
+            <h4 class="card-title">
+              <span appHighlight="yellow">{{product.name}}</span>
+          </h4>
+              
+            <h5>{{product.model}}</h5>
+            <p class="card-text">{{product.desc}}</p>
+            <p>{{product.code | convertToSpace:'-':' '}}</p>
+            <p>
+              <strong>
+                {{product.price | currency:'INR':'symbol':'1.2-3'}}
+              </strong>
+            </p>
+            <p>
+              <app-star [rating]="product.rating" (ratingClick)="onRatingClick($event)" ></app-star>
+            </p>
+            <button class="btn btn-primary" (click)="addToCart(product,$event)">Add to card</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+  </ng-container>
+
+</ng-container>
+
+
+
+
+
+<div class="row mt-3">
+  <div class="col offset-5">
+    <button class="btn btn-primary mx-3" [disabled]="firstPage()===0" (click)="onPrevious()" >Previous</button>
+    <span>Page {{pStart}} of {{totalPages()}}  </span>
+    <button class="btn btn-primary mx-3" [disabled]="pStart==totalPages()"  (click)="onNext()" >Next</button>
+  </div>
+  
+</div>
