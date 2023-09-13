@@ -1,0 +1,18 @@
+
+
+
+<div *ngIf="product$ | async as product">
+    {{product.name}}
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" routerLinkActive="active"
+        [routerLink]="['/products',product.id,'specification']">Specification</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" 
+          [routerLink]="['/products',product.id,'review']">Reviews</a>
+        </li>
+        
+      </ul>
+      <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,68 @@
+<form [formGroup]="profileForm" (submit)="onDataSubmit()">
+    <div class="mb-3">
+        <label for="firstname" class="form-label"> Firstname</label>
+        <input type="text" class="form-control" id="firstname" formControlName="firstName">
+        <div class="alert alert-danger" *ngIf="firstName.dirty && firstName.invalid">
+            <ng-container *ngIf="firstName.errors && firstName.errors['required']"> Author Field is required</ng-container>
+            <ng-container *ngIf="firstName.errors && firstName.errors['minlength']"> Minimum {{firstName.errors['minlength'].requiredLength}} is required</ng-container>
+
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="lastname" class="form-label"> lastname</label>
+        <input type="text" class="form-control" id="lastname" formControlName="lastName">
+        <div class="alert alert-danger" *ngIf="lastName.dirty && lastName.invalid">
+            <ng-container *ngIf="lastName.errors"> {{lastName.errors|json}}</ng-container>
+
+        </div>
+        
+
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label"> email</label>
+        <input type="email" class="form-control" id="email" formControlName="email">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label"> password</label>
+        <input type="password" class="form-control" id="password" formControlName="password">
+    </div>
+    <div class="mb-3">
+        <label for="password2" class="form-label">Confirm password</label>
+        <input type="password" class="form-control" id="password" formControlName="password2">
+        <div class="alert alert-danger" *ngIf="password2.dirty && profileForm.errors && !profileForm.errors['match'] ">
+<p>password didnt match</p>
+        </div>
+    </div>
+
+
+    <div class="address" formGroupName="address">
+        <h5>Address</h5>
+        <div class="mb-3">
+            <label for="city" class="form-label"> city</label>
+            <input type="text" class="form-control" id="city" formControlName="city">
+        </div>
+        <div class="mb-3">
+            <label for="state" class="form-label"> state</label>
+            <input type="text" class="form-control" id="state" formControlName="state">
+        </div>
+        <div class="mb-3">
+            <label for="zip" class="form-label"> zip</label>
+            <input type="number" class="form-control" id="zip" formControlName="zip">
+        </div>
+
+    </div>
+    <div class="mobile" formArrayName="mobileNos">
+        <h5>Mobile No.</h5>
+
+        <button class="btn btn-outline-light" type="button" (click)="addMobile()">Add Mobile</button>
+
+        <div class="mb-3" *ngFor="let mobile of mobileNos.controls; let i = index">
+
+            <input type="number" class="form-control" [formControlName]="i">
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="button" (click)="UpdateFeilds()">Update</button>
+</form>
+
+{{profileForm.value|json}}

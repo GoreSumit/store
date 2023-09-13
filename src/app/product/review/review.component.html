@@ -1,0 +1,32 @@
+<form #rf="ngForm" (submit)="rf.valid && onSubmit();rf.reset()">
+    <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input type="text" class="form-control" id="author"
+        [(ngModel)]="review.author" name="author" required minlength="4" #author="ngModel">
+        <div class="alert alert-danger" *ngIf="author.dirty && author.invalid">
+            <ng-container *ngIf="author.errors && author.errors['required']"> Author Field is required</ng-container>
+            <ng-container *ngIf="author.errors && author.errors['minlength']"> Minimum {{author.errors['minlength'].requiredLength}} is required</ng-container>
+
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email"
+        [(ngModel)]="review.email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <select id="rating" class="form-select" [(ngModel)]="review.rating" name="rating" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" class="form-control" cols="5" rows="3" [(ngModel)]="review.description" name="description" required></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit" [disabled]="rf.invalid">Submit</button>
+</form>
